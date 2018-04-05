@@ -3,7 +3,9 @@ const { Wechaty, Room } = require('wechaty')
 var axios = require('axios')
 var signal = '';  
 
-Wechaty.instance()
+Wechaty.instance({
+	profile: 'charity' 
+})
 	.on('scan', (url, code) => {
 		if (!/201|200/.test(String(code))) {
 			const loginUrl = url.replace(/\/qrcode\//, '/l/')
@@ -35,7 +37,14 @@ Wechaty.instance()
 		}
 		console.log(content);
 
-		if (content == 'charity') {
+		if (content.indexOf('@') > -1) {
+			return;
+		}
+		else if (content === 'welcome charity') {
+			m.say('同志们好，我是charity, 请大家多多关照^_^');
+			return;
+		}
+		else if (content == 'charity') {
 			signal = 'charity'
 			console.log('signal on')
 			return;
